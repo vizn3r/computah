@@ -6,6 +6,7 @@ BUILD=ON # Default to ON for normal build
 TESTS=OFF
 QEMU=OFF
 UPLOAD=OFF
+NEW_SD=OFF
 
 # If any args are passed, turn off normal build unless explicitly enabled
 if [ $# -gt 0 ]; then
@@ -29,13 +30,17 @@ while [[ $# -gt 0 ]]; do
     QEMU=ON
     shift
     ;;
+  -new-sd)
+    NEW_SD=ON
+    shift
+    ;;
   -upload)
     UPLOAD=ON
     shift
     ;;
   *)
     echo "Unknown option: $1"
-    echo "Usage: $0 [-debug] [-tests] [-qemu] [-upload]"
+    echo "Usage: $0 [-debug] [-tests] [-qemu] [-upload] [-new-sd]"
     exit 1
     ;;
   esac
@@ -60,11 +65,16 @@ if [ "$TESTS" = "ON" ]; then
   ctest -V --output-on-failure
 fi
 
+if [ "$NEW_SD" = "ON" ]; then
+  dd if=/dev/zero of=sdcard.img bs=1M count=64
+  dd if=../u-boot-sunxi-with-spl.bin of=sdcard.img bs=1024 seek=8 conv=notrunc
+fi
+
 if [ "$UPLOAD" = "ON" ]; then
-  dd if=bootloader.bin of=../sdcard.img bs=1024 seek=40 conv=notrunc
-  dd if=kernel.bin of=../sdcard.img bs=1024 seek=1024 conv=notrunc
+  dd if=bootloader.bin of=sdcard.img bs=1024 seek=40 conv=notrunc
+  dd if=kernel.bin of=sdcard.img bs=1024 seek=1024 conv=notrunc
 fi
 
 if [ "$QEMU" = "ON" ]; then
-  qemu-system-arm -M orangepi-pc -drive file=../sdcard.img,format=raw,if=sd -serial stdio
+  qemu-system-arm -M orangepi-pc -drive file=sdcard.img,format=raw,if=sd -serial stdio
 fi
