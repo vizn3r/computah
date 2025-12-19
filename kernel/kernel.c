@@ -4,8 +4,4 @@
 
 void _start() { kernel_main(); }
 
-void kernel_main(void) {
-  const char *msg = "Kernel start";
-
-  uart_print(msg);
-}
+void kernel_main(void) { uart_print("Hello from kernel!"); }

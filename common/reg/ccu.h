@@ -6,6 +6,8 @@
 
 #include <reg/regs_base.h>
 
+#define CCU(reg) *(vu32ptr_t)(BASE_CCU + (reg))
+
 // PLL_CPUX_CTRL_REG
 #define PLL_CPUX_CTRL_REG 0x0000
 #define PLL_CPUX_CTRL_REG_PLL_ENABLE 31

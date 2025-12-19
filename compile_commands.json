@@ -22,5 +22,17 @@
   "command": "arm-none-eabi-gcc  -I/home/vizn3r/dev/computah/common  -Wall -Wextra -O2 -DNDEBUG -g -g -DDEBUG -std=gnu2x -o CMakeFiles/common.dir/lib/uart.c.o -c /home/vizn3r/dev/computah/common/lib/uart.c",
   "file": "/home/vizn3r/dev/computah/common/lib/uart.c",
   "output": "common/CMakeFiles/common.dir/lib/uart.c.o"
+},
+{
+  "directory": "/home/vizn3r/dev/computah/build/common",
+  "command": "arm-none-eabi-gcc  -I/home/vizn3r/dev/computah/common  -Wall -Wextra -O2 -DNDEBUG -g -g -DDEBUG -std=gnu2x -o CMakeFiles/common.dir/lib/sd_mmc.c.o -c /home/vizn3r/dev/computah/common/lib/sd_mmc.c",
+  "file": "/home/vizn3r/dev/computah/common/lib/sd_mmc.c",
+  "output": "common/CMakeFiles/common.dir/lib/sd_mmc.c.o"
+},
+{
+  "directory": "/home/vizn3r/dev/computah/build/common",
+  "command": "arm-none-eabi-gcc  -I/home/vizn3r/dev/computah/common  -Wall -Wextra -O2 -DNDEBUG -g -g -DDEBUG -std=gnu2x -o CMakeFiles/common.dir/delay.c.o -c /home/vizn3r/dev/computah/common/delay.c",
+  "file": "/home/vizn3r/dev/computah/common/delay.c",
+  "output": "common/CMakeFiles/common.dir/delay.c.o"
 }
 ]

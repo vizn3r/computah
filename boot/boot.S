@@ -15,5 +15,5 @@ hang:
   b loader
 
 msg:
-  .asciz "Hello world! sex sex\n"
+  .asciz "Boot started:\n"
 
