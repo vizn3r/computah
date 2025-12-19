@@ -33,6 +33,10 @@
 // SD/MMC registers
 //
 
+#define SD_MMC0(reg) *(vu32ptr_t)(BASE_SD_MMC0 + (reg))
+#define SD_MMC1(reg) *(vu32ptr_t)(BASE_SD_MMC1 + (reg))
+#define SD_MMC2(reg) *(vu32ptr_t)(BASE_SD_MMC2 + (reg))
+
 // SD_GCTL
 #define SD_GCTL 0x0000
 #define SD_GCTL_FIFO_AC_MOD 31
@@ -40,6 +44,7 @@
 #define SD_GCTL_CD_DBC_ENB 8
 #define SD_GCTL_DMA_ENB 5
 #define SD_GCTL_INT_ENB 4
+#define SD_GCTL_DMA_RST 2
 #define SD_GCTL_FIFO_RST 1
 #define SD_GCTL_SOFT_RST 0
 
@@ -287,3 +292,10 @@
 #define SD_FIFO 0x0200
 #define SD_FIFO_TX_HIGH 31
 #define SD_FIFO_TX_LOW 0
+
+//
+// Common register values
+//
+
+#define SD_GCTL_RESET                                                          \
+  ((1 << SD_GCTL_SOFT_RST) | (1 << SD_GCTL_FIFO_RST) | (1 << SD_GCTL_DMA_RST))

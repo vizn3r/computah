@@ -5,6 +5,8 @@
 
 #pragma once
 
+typedef volatile unsigned int *vu32ptr_t;
+
 #define BASE_SRAM_A1 0x00000000
 #define BASE_SRAM_A1_END 0x000FFFF
 #define BASE_SRAM_A1_SIZE (SRAM_A1_END - SRAM_A1 + 1)

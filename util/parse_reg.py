@@ -1,15 +1,45 @@
 #!/usr/bin/env python3
 import re
 import sys
+import subprocess
+
+def get_clipboard():
+    """Try to get clipboard content using available tools"""
+    
+    # Try xclip first (Linux X11)
+    try:
+        return subprocess.check_output(['xclip', '-selection', 'clipboard', '-o'], stderr=subprocess.DEVNULL).decode('utf-8')
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        pass
+    
+    # Try xsel (Linux X11 alternative)
+    try:
+        return subprocess.check_output(['xsel', '-b'], stderr=subprocess.DEVNULL).decode('utf-8')
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        pass
+    
+    # Try wl-paste (Wayland)
+    try:
+        return subprocess.check_output(['wl-paste'], stderr=subprocess.DEVNULL).decode('utf-8')
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        pass
+    
+    # Try pbpaste (macOS)
+    try:
+        return subprocess.check_output(['pbpaste'], stderr=subprocess.DEVNULL).decode('utf-8')
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        pass
+    
+    return None
 
 def parse_register_block(lines, start_idx):
     """Parse a single register block starting at start_idx. Returns (end_idx, result) or (end_idx, None)"""
     
-    # Find offset/register name line
+    # Find offset/register name line - capture everything after "Register Name:"
     reg_match = None
     i = start_idx
     while i < len(lines):
-        reg_match = re.search(r'Offset:\s*(\S+)\s+Register Name:\s*(\S+)', lines[i])
+        reg_match = re.search(r'Offset:\s*(\S+)\s+Register Name:\s*(.+)$', lines[i])
         if reg_match:
             break
         i += 1
@@ -18,8 +48,13 @@ def parse_register_block(lines, start_idx):
         return len(lines), None
     
     offset = reg_match.group(1)
-    reg_name = reg_match.group(2)
+    reg_name = reg_match.group(2).strip()
     
+    # Clean register name: remove slashes and spaces, keep numbers and underscores
+    reg_name = reg_name.replace('/', '_').replace(' ', '_')
+    reg_name = re.sub(r'_+', '_', reg_name)
+    reg_name = reg_name.strip('_')    
+
     # Parse bit fields until we hit another "Offset:" line or end
     fields = []
     i += 1
@@ -31,14 +66,19 @@ def parse_register_block(lines, start_idx):
             break
         
         # Try to match bit position with field name on same line first
-        bit_match_inline = re.match(r'^\s*(\d+)(?::(\d+))?\s+([RW/-]+)\s+(0x[0-9a-fA-F]+|\d+)\s+([A-Z_][A-Z0-9_]*)', line)
+        bit_match_inline = re.match(r'^\s*(\d+)(?::(\d+))?\s+([RW/-]+)\s+(0x[0-9a-fA-F]+|\d+)\s+([A-Z_][A-Z0-9_/\s]*)', line)
         if bit_match_inline:
             bit_high = int(bit_match_inline.group(1))
             bit_low = int(bit_match_inline.group(2)) if bit_match_inline.group(2) else bit_high
             rw_type = bit_match_inline.group(3)
-            field_name = bit_match_inline.group(5)
+            field_name = bit_match_inline.group(5).strip()
             
-            if rw_type not in ['-', '/']:
+            # Clean up field name
+            field_name = field_name.replace('/', '_').replace(' ', '_')
+            field_name = re.sub(r'_+', '_', field_name)
+            field_name = field_name.strip('_')
+            
+            if rw_type not in ['-', '/'] and field_name:
                 fields.append((bit_high, bit_low, field_name))
             i += 1
             continue
@@ -86,7 +126,15 @@ def generate_defines(offset, reg_name, fields):
     return '\n'.join(output)
 
 def main():
-    input_text = sys.stdin.read()
+    # Try clipboard first, fall back to stdin
+    input_text = get_clipboard()
+    
+    if input_text is None:
+        if sys.stdin.isatty():
+            print("ERROR: Could not access clipboard. Please pipe input or install clipboard tool (xclip/xsel/wl-paste)", file=sys.stderr)
+            sys.exit(1)
+        input_text = sys.stdin.read()
+    
     lines = input_text.split('\n')
     
     i = 0
