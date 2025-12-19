@@ -66,6 +66,7 @@ if [ "$TESTS" = "ON" ]; then
 fi
 
 if [ "$NEW_SD" = "ON" ]; then
+  rm sdcard.img
   dd if=/dev/zero of=sdcard.img bs=1M count=64
   dd if=../u-boot-sunxi-with-spl.bin of=sdcard.img bs=1024 seek=8 conv=notrunc
 fi

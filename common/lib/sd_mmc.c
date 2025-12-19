@@ -1,4 +1,6 @@
 #include "sd_mmc.h"
+// #define DEBUG_PRINT
+#include <debug.h>
 #include <delay.h>
 #include <reg/ccu.h>
 #include <reg/sd_mmc.h>
@@ -72,46 +74,70 @@ int mmc_init_card(void) {
 
     resp = SD_MMC0(SD_RESP0);
     if (resp & 0x80000000) {
-      return 0;
+      break; // Card is ready
     }
-
     dummy_delay(1000);
   }
 
-  return -1;
+  if (retries == 0) {
+    return -1;
+  }
+
+  // ADD THESE:
+  // CMD2: ALL_SEND_CID - get card identification
+  flags = (1 << SD_CMDR_RESP_RCV) | (1 << SD_CMDR_LONG_RESP);
+  mmc_send_cmd(2, 0, flags);
+
+  // CMD3: SEND_RELATIVE_ADDR - get card address
+  flags = (1 << SD_CMDR_RESP_RCV);
+  mmc_send_cmd(3, 0, flags);
+
+  uint32_t rca = SD_MMC0(SD_RESP0) & 0xFFFF0000; // Get RCA from response
+
+  // CMD7: SELECT_CARD - put card in transfer state
+  mmc_send_cmd(7, rca, flags);
+
+  return 0;
 }
 
 int mmc_read_block(uint32_t block_num, void *dest) {
-  // Set block size to 512 bytes
-  SD_MMC0(SD_BKSR) = 512;
+  DPRINT("   [block start]\n");
 
-  // Set byte count
+  SD_MMC0(SD_BKSR) = 512;
   SD_MMC0(SD_BYCR) = 512;
 
-  // CMD17: READ_SINGLE_BLOCK
-  // Flags: expect response, wait for data, check CRC
   uint32_t flags = (1 << SD_CMDR_RESP_RCV) | (1 << SD_CMDR_DATA_TRANS) |
                    (1 << SD_CMDR_WAIT_PRE_OVER);
 
+  DPRINT("   [cmd]\n");
   mmc_send_cmd(17, block_num, flags);
 
-  // Read data from FIFO
+  // Check response and status immediately after CMD17
+  uint32_t rint = SD_MMC0(SD_RISR);
+  // uint32_t resp = SD_MMC0(SD_RESP0);
+  // uint32_t status = SD_MMC0(SD_STAR);
+
+  if (rint & 0xBFC2) { // Error bits
+    DPRINT("   [cmd error!]\n");
+    return -1;
+  }
+
+  DPRINT("   [cmd ok]\n");
+
+  DPRINT("   [fifo]\n");
   uint32_t *buf = (uint32_t *)dest;
   for (int i = 0; i < 512 / 4; i++) {
-    // Wait for FIFO to have data
     while (SD_MMC0(SD_STAR) & (1 << SD_STAR_FIFO_EMPTY))
       ;
-
     buf[i] = SD_MMC0(SD_FIFO);
   }
 
-  // Wait for transfer complete
+  DPRINT("   [wait]\n");
   while (!(SD_MMC0(SD_RISR) & (1 << 3)))
-    ; // DATA_OVER bit
+    ;
 
-  // Clear interrupts
   SD_MMC0(SD_RISR) = 0xFFFFFFFF;
-
+  DPRINT("   [done]\n");
   return 0;
 }
 

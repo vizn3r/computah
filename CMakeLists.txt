@@ -8,6 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Compiler flags
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -O2 -DNDEBUG")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -g -DDEBUG")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -marm")  # Force ARM mode, not Thumb
 
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR arm)
@@ -54,6 +55,10 @@ add_custom_command(TARGET boot.elf POST_BUILD
 # kernel
 add_executable(kernel.elf
   kernel/kernel.c
+)
+
+set_target_properties(kernel.elf PROPERTIES
+  LINK_FLAGS "-T${CMAKE_CURRENT_SOURCE_DIR}/kernel/kernel.ld -nostdlib -nodefaultlibs -nostartfiles"
 )
 
 target_link_libraries(kernel.elf

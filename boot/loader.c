@@ -14,9 +14,9 @@ void loader(void) {
   uart_print(" << SD card initialized\n");
   uart_print(" >> Reading kernel\n");
 
-  mmc_read_blocks(1024, (void *)0x40000000, 100);
+  mmc_read_blocks(2048, (void *)0x40000000, 100);
   uart_print(" >> Jumping to kernel\n");
 
-  void (*kernel_main)(void) = (void (*)(void))0x4000000;
+  void (*kernel_main)(void) = (void (*)(void))0x40000000;
   kernel_main();
 }

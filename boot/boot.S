@@ -1,6 +1,5 @@
 .global _start
 _start:
-  ldr sp, =0x42000000
   ldr r0, =0x01C28000
   ldr r1, =msg
 
