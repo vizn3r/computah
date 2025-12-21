@@ -49,6 +49,7 @@ set_target_properties(boot.elf PROPERTIES
 
 add_custom_command(TARGET boot.elf POST_BUILD
   COMMAND ${CMAKE_OBJCOPY} -O binary boot.elf bootloader.bin
+  #COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/mksunxiboot bootloader.bin bootloader-egon.bin
   COMMENT "Creating bootloader.bin"
 )
 

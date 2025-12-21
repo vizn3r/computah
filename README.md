@@ -16,7 +16,7 @@ But, I like to make stuff "mine" in some way, so it feels like it's my product, 
  - design everything myself (mostly)
  - build and construct the hardware myself
 
-### The actual plan
+### The actual structure
 
 #### Operating System
 I mentioned I wanna do something that feels "mine"... so I'm gonna do an operating system where almost everything is a register.
@@ -33,6 +33,15 @@ I wanna start with simple QEMU emulations just to have a proof of concept for th
 <br>
 With actual hardware, I wanna go into 32 bit ARM, so cores like ARM Cortex-A7 will be perfect.
 <br>
-The actual CPU that I would use could be the Allwinner H3, the same that OrangePI is using, so lots of documentation and technical reference.
+The actual CPU that I would use could be the NXP i.MX6 Dual/Quad (doesn't really matter), because it has really, really good docs.
 <br>
 Then I would actually want to try designing my own board with the CPU, some RAM and either eMMC or just a SD card, or both.
+
+### The plan for now
+
+#### Start writing the OS itself in QEMU
+There's a board in QEMU that has the i.MX6 Quad on it, so I can just use that without any DDR initialization headaches and bootloaders.
+<br>
+I can find out if the concept could really work, because if no, I would spend time writing HAL stuff instead of the actual kernel and just waste time.
+<br>
+I would try to make it so there would be interfaces for HAL related stuff that I could then just port for the actual hardware.
