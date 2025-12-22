@@ -1,7 +1,9 @@
+/* deprecated, bootloader not used rn */
+
 ENTRY(_start)
 
 SECTIONS{
-    . = 0x00044000;
+    . = 0x00000000;
 
     .text : {
         *(.text)
