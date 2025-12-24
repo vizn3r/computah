@@ -62,28 +62,28 @@ if [ -f compile_commands.json ]; then
   cp compile_commands.json ..
 fi
 
-if [ "$TESTS" = "ON" ]; then
-  echo " >> Running tests:"
-  ctest -V --output-on-failure
-fi
-
-if [ "$NEW_SD" = "ON" ]; then
-  echo " >> Creating new SD card image:"
-  if [ -f sdcard.img ]; then
-    rm sdcard.img
-  fi
-  dd if=/dev/zero of=sdcard.img bs=1M count=64
-  dd if=../u-boot-sunxi-with-spl.bin of=sdcard.img bs=1024 seek=8 conv=notrunc
-fi
-
-if [ "$UPLOAD" = "ON" ]; then
-  echo " >> Uploading to SD card:"
-  #dd if=bootloader-egon.bin of=sdcard.img bs=1024 seek=40 conv=notrunc
-  dd if=bootloader.bin of=sdcard.img bs=1024 seek=40 conv=notrunc
-  dd if=kernel.bin of=sdcard.img bs=1024 seek=1024 conv=notrunc
-fi
+#if [ "$TESTS" = "ON" ]; then
+#  echo " >> Running tests:"
+#  ctest -V --output-on-failure
+#fi
+#
+#if [ "$NEW_SD" = "ON" ]; then
+#  echo " >> Creating new SD card image:"
+#  if [ -f sdcard.img ]; then
+#    rm sdcard.img
+#  fi
+#  dd if=/dev/zero of=sdcard.img bs=1M count=64
+#  dd if=../u-boot-sunxi-with-spl.bin of=sdcard.img bs=1024 seek=8 conv=notrunc
+#fi
+#
+#if [ "$UPLOAD" = "ON" ]; then
+#  echo " >> Uploading to SD card:"
+#  #dd if=bootloader-egon.bin of=sdcard.img bs=1024 seek=40 conv=notrunc
+#  dd if=bootloader.bin of=sdcard.img bs=1024 seek=40 conv=notrunc
+#  dd if=kernel.bin of=sdcard.img bs=1024 seek=1024 conv=notrunc
+#fi
 
 if [ "$QEMU" = "ON" ]; then
   echo " >> Starting QEMU:"
-  qemu-system-arm -M orangepi-pc -drive file=sdcard.img,format=raw,if=sd -monitor telnet:127.0.0.1:4444,server,nowait
+  qemu-system-arm -M sabrelite -kernel kernel.elf -serial stdio
 fi

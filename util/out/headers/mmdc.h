@@ -1,0 +1,94 @@
+//
+// i.MX6 MMDC Register Definitions
+// Auto-generated from reference manual
+//
+
+#pragma once
+
+// MMDC Base Addresses
+#define MMDC1_BASE 0x021B0000
+
+// MMDC Accessor Macros
+#define MMDC1(reg) *(volatile unsigned int*)(MMDC1_BASE + (reg))
+
+// MMDC Register Offsets
+#define MMDC_MAARCR 0x0400
+#define MMDC_MADPCR0 0x0410
+#define MMDC_MAEXIDR0 0x0408
+#define MMDC_MAEXIDR1 0x040C
+#define MMDC_MAPSR 0x0404
+#define MMDC_MDASP 0x0040
+#define MMDC_MDCFG0 0x000C
+#define MMDC_MDCFG1 0x0010
+#define MMDC_MDCFG2 0x0014
+#define MMDC_MDCFG3LP 0x0038
+#define MMDC_MDCTL 0x0000
+#define MMDC_MDMISC 0x0018
+#define MMDC_MDMR4 0x003C
+#define MMDC_MDMRR 0x0034
+#define MMDC_MDOR 0x0030
+#define MMDC_MDOTC 0x0008
+#define MMDC_MDPDC 0x0004
+#define MMDC_MDREF 0x0020
+#define MMDC_MDRWD 0x002C
+#define MMDC_MDSCR 0x001C
+
+// MMDC_MDCTL
+#define MMDC_MDCTL_SDE_0 31
+
+// MMDC_MDMISC
+#define MMDC_MDMISC_R 19
+#define MMDC_MDMISC_R 18
+#define MMDC_MDMISC_R 17
+#define MMDC_MDMISC_R 16
+#define MMDC_MDMISC_CALIB_PER_CS 0
+
+// MMDC_MDMRR
+#define MMDC_MDMRR_R 3
+#define MMDC_MDMRR_R 2
+#define MMDC_MDMRR_R 1
+#define MMDC_MDMRR_R 0
+
+// MMDC_MDREF
+#define MMDC_MDREF_CMD_CS 3
+#define MMDC_MDREF_CMD_BA 1
+#define MMDC_MDREF_CMD_BA 0
+
+// MMDC_MPDCCR
+#define MMDC_MPDCCR_R 19
+#define MMDC_MPDCCR_R 18
+#define MMDC_MPDCCR_R 17
+#define MMDC_MPDCCR_R 16
+#define MMDC_MPDCCR_WR_CA2_DEL 11
+#define MMDC_MPDCCR_WR_CA0_DEL 10
+#define MMDC_MPDCCR_WR_CA3_DEL_HIGH 7
+#define MMDC_MPDCCR_WR_CA3_DEL_LOW 6
+#define MMDC_MPDCCR_WR_CA2_DEL_HIGH 5
+#define MMDC_MPDCCR_WR_CA2_DEL_LOW 4
+#define MMDC_MPDCCR_WR_CA1_DEL_HIGH 3
+#define MMDC_MPDCCR_WR_CA1_DEL_LOW 2
+#define MMDC_MPDCCR_CK_FT1_DCC 0
+
+// MMDC_MPMUR0
+#define MMDC_MPMUR0_R 19
+#define MMDC_MPMUR0_R 18
+#define MMDC_MPMUR0_R 17
+#define MMDC_MPMUR0_R 16
+#define MMDC_MPMUR0_R 3
+#define MMDC_MPMUR0_R 2
+#define MMDC_MPMUR0_R 1
+#define MMDC_MPMUR0_MU_UNIT_DEL_NUM 0
+
+// MMDC_MPSDCTRL
+#define MMDC_MPSDCTRL_R 19
+#define MMDC_MPSDCTRL_R 18
+#define MMDC_MPSDCTRL_R 17
+#define MMDC_MPSDCTRL_R 16
+#define MMDC_MPSDCTRL_WR_DL_UNIT__HIGH 14
+#define MMDC_MPSDCTRL_WR_DL_UNIT__LOW 8
+#define MMDC_MPSDCTRL_WR_DL_UNIT_ 7
+#define MMDC_MPSDCTRL_R 3
+#define MMDC_MPSDCTRL_R 2
+#define MMDC_MPSDCTRL_R 1
+#define MMDC_MPSDCTRL_W 0
+

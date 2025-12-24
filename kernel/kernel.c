@@ -1,13 +1,13 @@
 #include "kernel.h"
-#include "lib/uart.h"
-#include <stdint.h>
 
-void _start() {
-  uart_print(" >> Entering kernel\n");
-  kernel_main();
-}
+void _start(void) { kernel_main(); }
 
 void kernel_main(void) {
-  // sex
-  uart_print("Hello from kernel!\n");
+  volatile unsigned int *uart = (unsigned int *)0x02020040;
+  const char *msg = "Hello fucking world!";
+
+  while (*msg) {
+    *uart = *msg;
+    ++msg;
+  }
 }

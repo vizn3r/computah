@@ -1,38 +1,8 @@
 [
 {
   "directory": "/home/vizn3r/dev/computah/build",
-  "command": "arm-none-eabi-gcc  -I/home/vizn3r/dev/computah/common -g -o CMakeFiles/boot.elf.dir/boot/boot.S.o -c /home/vizn3r/dev/computah/boot/boot.S",
-  "file": "/home/vizn3r/dev/computah/boot/boot.S",
-  "output": "CMakeFiles/boot.elf.dir/boot/boot.S.o"
-},
-{
-  "directory": "/home/vizn3r/dev/computah/build",
-  "command": "arm-none-eabi-gcc  -I/home/vizn3r/dev/computah/common  -Wall -Wextra -O2 -DNDEBUG -marm -g -g -DDEBUG -std=gnu2x -o CMakeFiles/boot.elf.dir/boot/loader.c.o -c /home/vizn3r/dev/computah/boot/loader.c",
-  "file": "/home/vizn3r/dev/computah/boot/loader.c",
-  "output": "CMakeFiles/boot.elf.dir/boot/loader.c.o"
-},
-{
-  "directory": "/home/vizn3r/dev/computah/build",
-  "command": "arm-none-eabi-gcc  -I/home/vizn3r/dev/computah/common  -Wall -Wextra -O2 -DNDEBUG -marm -g -g -DDEBUG -std=gnu2x -o CMakeFiles/kernel.elf.dir/kernel/kernel.c.o -c /home/vizn3r/dev/computah/kernel/kernel.c",
+  "command": "arm-none-eabi-gcc    -Wall -Wextra -O2 -DNDEBUG -marm -mcpu=cortex-a9 -ffreestanding -nostdlib -g -g -DDEBUG -std=gnu2x -o CMakeFiles/kernel.elf.dir/kernel/kernel.c.o -c /home/vizn3r/dev/computah/kernel/kernel.c",
   "file": "/home/vizn3r/dev/computah/kernel/kernel.c",
   "output": "CMakeFiles/kernel.elf.dir/kernel/kernel.c.o"
-},
-{
-  "directory": "/home/vizn3r/dev/computah/build/common",
-  "command": "arm-none-eabi-gcc  -I/home/vizn3r/dev/computah/common  -Wall -Wextra -O2 -DNDEBUG -marm -g -g -DDEBUG -std=gnu2x -o CMakeFiles/common.dir/lib/uart.c.o -c /home/vizn3r/dev/computah/common/lib/uart.c",
-  "file": "/home/vizn3r/dev/computah/common/lib/uart.c",
-  "output": "common/CMakeFiles/common.dir/lib/uart.c.o"
-},
-{
-  "directory": "/home/vizn3r/dev/computah/build/common",
-  "command": "arm-none-eabi-gcc  -I/home/vizn3r/dev/computah/common  -Wall -Wextra -O2 -DNDEBUG -marm -g -g -DDEBUG -std=gnu2x -o CMakeFiles/common.dir/lib/sd_mmc.c.o -c /home/vizn3r/dev/computah/common/lib/sd_mmc.c",
-  "file": "/home/vizn3r/dev/computah/common/lib/sd_mmc.c",
-  "output": "common/CMakeFiles/common.dir/lib/sd_mmc.c.o"
-},
-{
-  "directory": "/home/vizn3r/dev/computah/build/common",
-  "command": "arm-none-eabi-gcc  -I/home/vizn3r/dev/computah/common  -Wall -Wextra -O2 -DNDEBUG -marm -g -g -DDEBUG -std=gnu2x -o CMakeFiles/common.dir/delay.c.o -c /home/vizn3r/dev/computah/common/delay.c",
-  "file": "/home/vizn3r/dev/computah/common/delay.c",
-  "output": "common/CMakeFiles/common.dir/delay.c.o"
 }
 ]
